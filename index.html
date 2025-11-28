@@ -9,14 +9,19 @@
     
     <style>
         :root {
-            --primary: #00f2ea;
-            --secondary: #ff0055;
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --text-main: #f8fafc;
-            --text-sub: #94a3b8;
-            --accent-green: #10b981;
+            /* === 修改：高級橙色調配色 === */
+            --primary: #ffeebb; /* 香檳金 */
+            --secondary: #ff6b6b; /* 珊瑚紅 */
+            --accent-orange: #f97316; /* 亮橙色 */
+            
+            /* 背景漸變：深褐 -> 焦糖 -> 暖金 */
+            --bg-gradient: linear-gradient(160deg, #1c0502 0%, #431407 30%, #9a3412 70%, #c2410c 100%);
+            
+            --card-bg: rgba(255, 237, 213, 0.08); /* 帶有暖色調的卡片背景 */
+            --card-border: rgba(255, 200, 150, 0.15); /* 暖色邊框 */
+            --text-main: #fff7ed; /* 暖白色文字 */
+            --text-sub: #fdba74; /* 淺橙色副標 */
+            --accent-green: #34d399;
         }
 
         * {
@@ -24,40 +29,39 @@
             margin: 0;
             padding: 0;
             -webkit-tap-highlight-color: transparent;
-            /* 讓滑動更順暢 */
             scroll-behavior: smooth;
         }
 
         body {
             font-family: 'Inter', 'Noto Sans TC', sans-serif;
-            background: #0f0c29;
-            background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+            background: var(--bg-gradient); /* 應用新的漸變背景 */
             color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
             padding-bottom: 80px;
-            cursor: default; /* 為了自定義光暈 */
+            cursor: default;
         }
 
-        /* === 特效：滑鼠跟隨光暈 === */
+        /* === 特效：滑鼠跟隨光暈 (暖橙色) === */
         #cursor-glow {
             position: fixed;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(0, 242, 234, 0.15), transparent 70%);
+            width: 350px;
+            height: 350px;
+            /* 修改：暖橙色光暈 */
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.2), transparent 70%);
             border-radius: 50%;
             pointer-events: none;
             transform: translate(-50%, -50%);
             z-index: 9999;
             mix-blend-mode: screen;
             transition: transform 0.1s linear;
-            display: none; /* 手機版不顯示 */
+            display: none;
         }
         @media (min-width: 1024px) {
             #cursor-glow { display: block; }
         }
 
-        /* === 特效：螢火蟲背景 === */
+        /* === 特效：螢火蟲 (金色粒子) === */
         #fireflies {
             position: fixed;
             top: 0;
@@ -71,19 +75,19 @@
 
         .firefly {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--primary);
+            width: 3px;
+            height: 3px;
+            background: #fbbf24; /* 金黃色 */
             border-radius: 50%;
             opacity: 0;
             animation: fly 10s linear infinite;
-            box-shadow: 0 0 10px var(--primary);
+            box-shadow: 0 0 8px #fbbf24;
         }
 
         @keyframes fly {
             0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
             100% { transform: translateY(-10vh) scale(1); opacity: 0; }
         }
 
@@ -102,7 +106,7 @@
             animation: fadeInDown 1s ease-out;
         }
 
-        /* === 特效：故障標題 (Glitch Text) === */
+        /* === 特效：故障標題 (配色微調) === */
         .glitch-wrapper {
             position: relative;
             display: inline-block;
@@ -114,15 +118,16 @@
             color: white;
             margin-bottom: 10px;
             position: relative;
-            text-shadow: 2px 2px var(--secondary), -2px -2px var(--primary);
+            /* 修改：陰影改為橙紅配色 */
+            text-shadow: 2px 2px #c2410c, -2px -2px #fbbf24;
             animation: glitch-anim 3s infinite alternate;
         }
 
         @keyframes glitch-anim {
-            0% { text-shadow: 2px 2px var(--secondary), -2px -2px var(--primary); transform: skew(0deg); }
-            5% { text-shadow: -2px -2px var(--secondary), 2px 2px var(--primary); transform: skew(-2deg); }
-            10% { text-shadow: 2px -2px var(--secondary), -2px 2px var(--primary); transform: skew(0deg); }
-            100% { text-shadow: 2px 2px var(--secondary), -2px -2px var(--primary); transform: skew(0deg); }
+            0% { text-shadow: 2px 2px #c2410c, -2px -2px #fbbf24; transform: skew(0deg); }
+            5% { text-shadow: -2px -2px #c2410c, 2px 2px #fbbf24; transform: skew(-2deg); }
+            10% { text-shadow: 2px -2px #c2410c, -2px 2px #fbbf24; transform: skew(0deg); }
+            100% { text-shadow: 2px 2px #c2410c, -2px -2px #fbbf24; transform: skew(0deg); }
         }
 
         .subtitle {
@@ -137,11 +142,12 @@
         }
 
         .tag {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 166, 0, 0.15); /* 橙色背景 */
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
             border: 1px solid var(--card-border);
+            color: #ffedd5;
         }
 
         /* === 特效：倒數計時器 === */
@@ -161,32 +167,33 @@
             padding: 8px 12px;
             border-radius: 10px;
             min-width: 60px;
-            border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
         .count-val {
             font-size: 1.2rem;
             font-weight: 700;
-            color: var(--primary);
+            color: #fbbf24; /* 金色 */
         }
 
         .count-label {
             font-size: 0.7rem;
-            color: #94a3b8;
+            color: #fdba74;
             text-transform: uppercase;
         }
 
         /* === 航班資訊表格樣式 === */
         .flight-section {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.06);
             border: 1px solid var(--card-border);
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 30px;
             transition: transform 0.3s ease;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px); /* 磨砂感增強 */
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
         
         .flight-section:active {
@@ -243,13 +250,13 @@
             position: sticky;
             top: 10px;
             z-index: 99999;
-            background: rgba(15, 12, 41, 0.95);
+            background: rgba(67, 20, 7, 0.85); /* 深褐色半透明 */
             padding: 10px 5px;
             border-radius: 30px;
             margin-bottom: 20px;
             border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            backdrop-filter: blur(15px);
         }
 
         .nav-scroller {
@@ -267,7 +274,7 @@
         .day-btn {
             background: transparent;
             border: none;
-            color: #94a3b8;
+            color: #fdba74; /* 淺橙 */
             padding: 12px 20px;
             font-size: 16px;
             font-weight: 600;
@@ -282,8 +289,8 @@
 
         .day-btn.active {
             background: #fff;
-            color: #0f0c29;
-            box-shadow: 0 0 15px rgba(255,255,255,0.4);
+            color: #c2410c; /* 深橙 */
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
             transform: scale(1.05);
         }
 
@@ -291,13 +298,13 @@
         .day-content { display: none; }
         .day-content.active { display: block !important; }
 
-        /* === 3D 卡片樣式 (核心優化) === */
+        /* === 3D 卡片樣式 === */
         .itinerary-container {
-            perspective: 1000px; /* 為 3D 效果設置透視 */
+            perspective: 1000px;
         }
 
         .hotel-card, .activity-card {
-            background: rgba(255,255,255,0.05);
+            background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 12px;
             margin-bottom: 25px;
@@ -305,15 +312,15 @@
             overflow: hidden;
             opacity: 0;
             transform: translateY(20px);
-            transition: transform 0.2s, box-shadow 0.2s; /* 移除 all transition 以避免與 3D 衝突 */
+            transition: transform 0.2s, box-shadow 0.2s;
             padding: 0;
-            
-            /* 3D 屬性 */
+            backdrop-filter: blur(10px); /* 磨砂效果 */
             transform-style: preserve-3d;
             will-change: transform;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        /* 卡片上的光澤掃過效果 */
+        /* 卡片上的光澤掃過效果 (金色光澤) */
         .hotel-card::after, .activity-card::after {
             content: "";
             position: absolute;
@@ -321,7 +328,7 @@
             left: -100%;
             width: 50%;
             height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(251, 191, 36, 0.15) 50%, rgba(255,255,255,0) 100%);
             transform: skewX(-25deg);
             transition: 0.5s;
             pointer-events: none;
@@ -334,7 +341,7 @@
         
         .card-content {
             padding: 15px;
-            transform: translateZ(20px); /* 讓文字浮起來 */
+            transform: translateZ(20px);
             position: relative;
             z-index: 2;
         }
@@ -355,7 +362,7 @@
 
         .hotel-card:active, .activity-card:active {
             transform: scale(0.98) !important;
-            background: rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.1);
         }
 
         .slide-in {
@@ -366,14 +373,15 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
+        /* 酒店卡片特別色：金色邊框 */
         .hotel-card {
-            border-color: rgba(16, 185, 129, 0.3);
-            background: linear-gradient(160deg, rgba(16, 185, 129, 0.05), rgba(16, 185, 129, 0.1));
+            border-color: rgba(251, 191, 36, 0.4);
+            background: linear-gradient(160deg, rgba(251, 191, 36, 0.05), rgba(251, 191, 36, 0.1));
         }
 
         .timeline-item {
             padding-left: 25px;
-            border-left: 2px solid rgba(255,255,255,0.1);
+            border-left: 2px solid rgba(255, 237, 213, 0.2);
             margin-bottom: 20px;
             position: relative;
         }
@@ -386,7 +394,7 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: var(--primary);
+            background: var(--primary); /* 香檳金 */
             box-shadow: 0 0 8px var(--primary);
             z-index: 2;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -403,7 +411,7 @@
             margin-bottom: 8px;
             display: block;
             font-weight: bold;
-            text-shadow: 0 0 5px rgba(0, 242, 234, 0.3);
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
         }
 
         .activity-title {
@@ -418,7 +426,7 @@
         }
 
         .activity-desc {
-            color: #ccc;
+            color: #fed7aa; /* 溫暖的淺膚色文字 */
             font-size: 0.9rem;
             line-height: 1.6;
             margin-bottom: 10px;
@@ -426,11 +434,12 @@
 
         .highlight-event {
             border: 1px solid var(--secondary);
-            background: linear-gradient(135deg, rgba(255, 0, 85, 0.15), rgba(0,0,0,0.2));
-            box-shadow: 0 0 15px rgba(255, 0, 85, 0.1);
+            /* 重點行程背景：淡淡的珊瑚紅漸層 */
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.15), rgba(0,0,0,0.1));
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.1);
         }
 
-        .highlight-event .activity-title { color: #ff4d88; }
+        .highlight-event .activity-title { color: #ff9e9e; }
         
         .map-btn {
             display: inline-flex;
@@ -450,8 +459,8 @@
         }
 
         .map-btn:hover {
-            background: white;
-            color: black;
+            background: #fff;
+            color: #c2410c;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(255,255,255,0.2);
         }
@@ -459,16 +468,16 @@
             transform: scale(0.95);
         }
 
-        .map-btn i { color: #4285F4; transition: color 0.3s; }
-        .map-btn:hover i { color: black; }
+        .map-btn i { color: #60a5fa; transition: color 0.3s; }
+        .map-btn:hover i { color: #c2410c; }
         
         /* === 漂浮按鈕 (Back to Top) === */
         #back-to-top {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: var(--primary);
-            color: #0f0c29;
+            background: var(--accent-orange);
+            color: white;
             width: 45px;
             height: 45px;
             border-radius: 50%;
@@ -482,7 +491,7 @@
             transform: translateY(20px);
             transition: all 0.3s;
             z-index: 1000;
-            box-shadow: 0 0 15px var(--primary);
+            box-shadow: 0 0 15px var(--accent-orange);
         }
         #back-to-top.show {
             opacity: 1;
@@ -490,24 +499,25 @@
         }
         #back-to-top:hover {
             transform: translateY(-5px);
-            box-shadow: 0 0 25px var(--primary);
+            box-shadow: 0 0 25px var(--accent-orange);
         }
 
         .footer {
             text-align: center;
-            color: #666;
+            color: #fdba74;
             margin-top: 50px;
             font-size: 0.8rem;
             padding-bottom: 20px;
+            opacity: 0.7;
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. 背景特效：螢火蟲 -->
+    <!-- 1. 背景特效：螢火蟲 (金黃色) -->
     <div id="fireflies"></div>
     
-    <!-- 2. 前景特效：滑鼠光暈 -->
+    <!-- 2. 前景特效：滑鼠光暈 (暖橙色) -->
     <div id="cursor-glow"></div>
 
     <div class="container">
@@ -565,7 +575,7 @@
                         <div class="activity-title"><i class="fa-solid fa-bed"></i> Hotel Mi Rochor</div>
                         <div class="activity-desc">
                             入住 3 晚 (Bugis 區)
-                            <div style="margin-top:8px; font-size:0.85rem; color:#94a3b8; background:rgba(0,0,0,0.2); padding:5px 8px; border-radius:6px; display:inline-block;">
+                            <div style="margin-top:8px; font-size:0.85rem; color:#fed7aa; background:rgba(0,0,0,0.2); padding:5px 8px; border-radius:6px; display:inline-block;">
                                 <i class="fa-regular fa-clock"></i> 最早入住 15:00後 / 最遲退房 11:00前
                             </div>
                         </div>
@@ -795,13 +805,13 @@
                     </div>
                 </div>
 
-                <div class="hotel-card js-tilt" style="border-color: #ff0055;">
+                <div class="hotel-card js-tilt" style="border-color: #fca5a5;">
                     <img src="https://res.klook.com/klook-hotel/image/upload/travelapi/16000000/15070000/15061900/15061900/e96b58a9_z.jpg" class="activity-img" alt="D'Resort">
                     <div class="card-content">
                         <div class="activity-title"><i class="fa-solid fa-suitcase"></i> D'Resort</div>
                         <div class="activity-desc">
                             更換住宿 (Downtown East)
-                            <div style="margin-top:8px; font-size:0.85rem; color:#94a3b8; background:rgba(0,0,0,0.2); padding:5px 8px; border-radius:6px; display:inline-block;">
+                            <div style="margin-top:8px; font-size:0.85rem; color:#fed7aa; background:rgba(0,0,0,0.2); padding:5px 8px; border-radius:6px; display:inline-block;">
                                 <i class="fa-regular fa-clock"></i> 最早入住 15:00後 / 最遲退房 11:00前
                             </div>
                         </div>
@@ -858,7 +868,7 @@
     </div>
 
     <script>
-        // === 1. 背景螢火蟲生成邏輯 ===
+        // === 1. 背景螢火蟲生成邏輯 (金黃色) ===
         function createFireflies() {
             const container = document.getElementById('fireflies');
             const fireflyCount = 20;
@@ -872,7 +882,8 @@
                 fly.style.left = left;
                 fly.style.animationDelay = delay;
                 fly.style.animationDuration = duration;
-                const hue = Math.random() > 0.5 ? '#00f2ea' : '#ff0055';
+                // 改為不同深淺的金色/橙色
+                const hue = Math.random() > 0.5 ? '#fbbf24' : '#f97316';
                 fly.style.background = hue;
                 fly.style.boxShadow = `0 0 10px ${hue}`;
                 container.appendChild(fly);
@@ -927,7 +938,7 @@
                 cards.forEach(card => {
                     card.classList.remove('slide-in');
                     card.style.opacity = '0';
-                    card.style.transform = 'translateY(20px)'; // Reset 3D transform slightly
+                    card.style.transform = 'translateY(20px)';
                 });
                 
                 setTimeout(() => {
@@ -940,14 +951,16 @@
             }
         }
 
-        // === 4. 新增特效：滑鼠游標光暈追蹤 ===
+        // === 4. 特效：滑鼠游標光暈追蹤 ===
         document.addEventListener('mousemove', function(e) {
             const glow = document.getElementById('cursor-glow');
-            glow.style.left = e.clientX + 'px';
-            glow.style.top = e.clientY + 'px';
+            if(glow) {
+                glow.style.left = e.clientX + 'px';
+                glow.style.top = e.clientY + 'px';
+            }
         });
 
-        // === 5. 新增特效：3D 傾斜卡片邏輯 (Vanilla JS Tilt) ===
+        // === 5. 特效：3D 傾斜卡片邏輯 ===
         function initTiltEffect() {
             const cards = document.querySelectorAll('.js-tilt');
             
@@ -966,7 +979,7 @@
                 const mouseX = e.clientX - centerX;
                 const mouseY = e.clientY - centerY;
 
-                // 計算旋轉角度 (限制在 +/- 10度以內，避免過度暈眩)
+                // 計算旋轉角度 (限制在 +/- 5度以內，避免過度暈眩)
                 const rotateX = (mouseY / (cardHeight / 2)) * -5; 
                 const rotateY = (mouseX / (cardWidth / 2)) * 5;
 
@@ -981,10 +994,12 @@
         // === 6. Back to Top 按鈕邏輯 ===
         window.onscroll = function() {
             const btn = document.getElementById('back-to-top');
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                btn.classList.add('show');
-            } else {
-                btn.classList.remove('show');
+            if (btn) {
+                if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                    btn.classList.add('show');
+                } else {
+                    btn.classList.remove('show');
+                }
             }
         };
 
@@ -996,7 +1011,7 @@
             createFireflies();
             startCountdown();
             selectDay('day1');
-            initTiltEffect(); // 啟動 3D 特效
+            initTiltEffect();
         }
     </script>
 </body>
