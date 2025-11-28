@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -254,18 +253,18 @@
         .day-content { display: none; }
         .day-content.active { display: block !important; }
 
-        /* 卡片樣式 (重構以支援圖片) */
+        /* 卡片樣式 */
         .hotel-card, .activity-card {
             background: rgba(255,255,255,0.05);
             border: 1px solid var(--card-border);
             border-radius: 12px;
-            margin-bottom: 25px; /* 增加間距 */
+            margin-bottom: 25px;
             position: relative;
-            overflow: hidden; /* 確保圖片不溢出 */
+            overflow: hidden;
             opacity: 0;
             transform: translateY(20px);
             transition: transform 0.2s;
-            padding: 0; /* 移除 padding，由內部 content 控制 */
+            padding: 0;
         }
         
         .card-content {
@@ -309,7 +308,7 @@
             content: '';
             position: absolute;
             left: -6px;
-            top: 20px; /* 調整時間軸點的位置 */
+            top: 20px;
             width: 10px;
             height: 10px;
             border-radius: 50%;
@@ -440,7 +439,12 @@
                     <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2f/91/20/44/facade.jpg?w=900&h=500&s=1" class="activity-img" alt="Hotel Mi Rochor">
                     <div class="card-content">
                         <div class="activity-title"><i class="fa-solid fa-bed"></i> Hotel Mi Rochor</div>
-                        <div class="activity-desc">入住 3 晚 (Bugis 區)</div>
+                        <div class="activity-desc">
+                            入住 3 晚 (Bugis 區)
+                            <div style="margin-top:8px; font-size:0.85rem; color:#94a3b8; background:rgba(0,0,0,0.2); padding:5px 8px; border-radius:6px; display:inline-block;">
+                                <i class="fa-regular fa-clock"></i> 最早入住 15:00後 / 最遲退房 11:00前
+                            </div>
+                        </div>
                         <a href="https://www.google.com/maps/search/?api=1&query=Hotel+Mi+Rochor" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 導航</a>
                     </div>
                 </div>
@@ -617,6 +621,24 @@
                     </div>
                 </div>
 
+                <!-- Day 3 晚餐：YanHuo Restaurant -->
+                <div class="timeline-item">
+                    <span class="time-badge">17:30</span>
+                    <div class="activity-card">
+                        <!-- 使用代表性的中式餐飲圖片 -->
+                        <img src="https://i.ytimg.com/vi/QlLyuAmkyNE/maxresdefault.jpg" class="activity-img" alt="YanHuo Restaurant">
+                        <div class="card-content">
+                            <div class="activity-title">🥢 YanHuo Restaurant 烟伙餐厅</div>
+                            <div class="activity-desc">
+                                充滿「煙火氣」的現代中餐館。<br>
+                                推薦：<b>菠萝辣子鸡</b>、<b>松露煲仔饭</b>。<br>
+                                (位於 Cross Street)
+                            </div>
+                            <a href="https://www.google.com/maps/search/?api=1&query=YanHuo+Restaurant+Singapore" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 導航到烟伙</a>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="timeline-item">
                     <span class="time-badge">19:30</span>
                     <div class="activity-card highlight-event">
@@ -653,7 +675,12 @@
                     <img src="https://res.klook.com/klook-hotel/image/upload/travelapi/16000000/15070000/15061900/15061900/e96b58a9_z.jpg" class="activity-img" alt="D'Resort">
                     <div class="card-content">
                         <div class="activity-title"><i class="fa-solid fa-suitcase"></i> D'Resort</div>
-                        <div class="activity-desc">更換住宿 (Downtown East)</div>
+                        <div class="activity-desc">
+                            更換住宿 (Downtown East)
+                            <div style="margin-top:8px; font-size:0.85rem; color:#94a3b8; background:rgba(0,0,0,0.2); padding:5px 8px; border-radius:6px; display:inline-block;">
+                                <i class="fa-regular fa-clock"></i> 最早入住 15:00後 / 最遲退房 11:00前
+                            </div>
+                        </div>
                         <a href="https://www.google.com/maps/search/?api=1&query=D'Resort+@+Downtown+East" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 導航</a>
                     </div>
                 </div>
