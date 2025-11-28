@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🇸🇬 新加坡 5天4夜 Vibe Trip</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #00f2ea;
+            --secondary: #ff0055;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --accent-green: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background: #0f0c29;
+            background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 80px;
+        }
+
+        /* === 特效：螢火蟲背景 === */
+        #fireflies {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .firefly {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0;
+            animation: fly 10s linear infinite;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        @keyframes fly {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--text-sub);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .tag {
+            background: rgba(255,255,255,0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid var(--card-border);
+        }
+
+        /* === 特效：倒數計時器 === */
+        .countdown-box {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            font-family: 'Inter', monospace;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 8px 12px;
+            border-radius: 10px;
+            min-width: 60px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .count-val {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .count-label {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        /* === 航班資訊表格樣式 === */
+        .flight-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+        
+        .flight-section:active {
+            transform: scale(0.98);
+        }
+
+        .flight-group { margin-bottom: 20px; }
+        .flight-group:last-child { margin-bottom: 0; }
+
+        .flight-label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .flight-label.outbound { color: var(--accent-green); }
+        .flight-label.inbound { color: var(--secondary); }
+
+        .flight-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .flight-table th {
+            text-align: left;
+            color: var(--text-sub);
+            font-weight: 400;
+            padding: 5px;
+            font-size: 0.8rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .flight-table td {
+            padding: 10px 5px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .flight-code {
+            font-family: monospace;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .flight-time { font-size: 1.1rem; }
+
+        /* === 導航欄 === */
+        .nav-wrapper {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 10px;
+            z-index: 99999;
+            background: rgba(15, 12, 41, 0.95);
+            padding: 10px 5px;
+            border-radius: 30px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        .nav-scroller {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 5px;
+            justify-content: flex-start;
+        }
+
+        @media(min-width: 600px) { .nav-scroller { justify-content: center; } }
+        .nav-scroller::-webkit-scrollbar { display: none; }
+
+        .day-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            flex-shrink: 0;
+            border-radius: 20px;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .day-btn.active {
+            background: #fff;
+            color: #0f0c29;
+            box-shadow: 0 2px 10px rgba(255,255,255,0.2);
+            transform: scale(1.05);
+        }
+
+        /* === 內容區域 & 瀑布流動畫 === */
+        .day-content { display: none; }
+        .day-content.active { display: block !important; }
+
+        /* 卡片樣式 (重構以支援圖片) */
+        .hotel-card, .activity-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            margin-bottom: 25px; /* 增加間距 */
+            position: relative;
+            overflow: hidden; /* 確保圖片不溢出 */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: transform 0.2s;
+            padding: 0; /* 移除 padding，由內部 content 控制 */
+        }
+        
+        .card-content {
+            padding: 15px;
+        }
+
+        .activity-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .hotel-card:active, .activity-card:active {
+            transform: scale(0.98) !important;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .slide-in {
+            animation: slideUpFade 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes slideUpFade {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hotel-card {
+            border-color: rgba(16, 185, 129, 0.3);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .timeline-item {
+            padding-left: 25px;
+            border-left: 2px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 20px; /* 調整時間軸點的位置 */
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 5px var(--primary);
+            z-index: 2;
+        }
+
+        .time-badge {
+            color: var(--primary);
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            display: block;
+            font-weight: bold;
+        }
+
+        .activity-title {
+            color: white;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+            padding-right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .activity-desc {
+            color: #ccc;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .highlight-event {
+            border: 1px solid var(--secondary);
+            background: linear-gradient(135deg, rgba(255, 0, 85, 0.1), transparent);
+        }
+
+        .highlight-event .activity-title { color: #ff4d88; }
+        
+        .map-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: 1px solid rgba(255,255,255,0.2);
+            margin-top: 5px;
+        }
+
+        .map-btn:active {
+            background: #fff;
+            color: #0f0c29;
+            transform: scale(0.95);
+        }
+
+        .map-btn i { color: #4285F4; }
+        
+        .footer {
+            text-align: center;
+            color: #666;
+            margin-top: 50px;
+            font-size: 0.8rem;
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 背景特效容器 -->
+    <div id="fireflies"></div>
+
+    <div class="container">
+        <header>
+            <h1>SINGAPORE 2025</h1>
+            <div class="subtitle">
+                <span>Nov 30 - Dec 4</span>
+                <span class="tag">5 Days 4 Nights</span>
+            </div>
+            <!-- 倒數計時器 -->
+            <div class="countdown-box" id="countdown"></div>
+        </header>
+
+        <div class="flight-section">
+            <h3 style="text-align:center; margin-bottom:20px; color:white;"><i class="fa-solid fa-plane-departure"></i> 航班資訊</h3>
+            <div class="flight-group">
+                <div class="flight-label outbound">
+                    <i class="fa-solid fa-circle-arrow-right"></i> 去程 (30/11) HKG ➜ SIN
+                </div>
+                <table class="flight-table">
+                    <thead><tr><th>航班編號</th><th>出發時間</th><th>到達時間</th></tr></thead>
+                    <tbody><tr><td class="flight-code">SQ875</td><td class="flight-time">12:30</td><td class="flight-time">16:30</td></tr></tbody>
+                </table>
+            </div>
+            <div style="border-top: 1px dashed rgba(255,255,255,0.1); margin: 15px 0;"></div>
+            <div class="flight-group">
+                <div class="flight-label inbound">
+                    <i class="fa-solid fa-circle-arrow-left"></i> 回程 (04/12) SIN ➜ HKG
+                </div>
+                <table class="flight-table">
+                    <thead><tr><th>航班編號</th><th>出發時間</th><th>到達時間</th></tr></thead>
+                    <tbody><tr><td class="flight-code">SQ898</td><td class="flight-time">18:55</td><td class="flight-time">22:45</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="nav-wrapper">
+            <div class="nav-scroller">
+                <button class="day-btn active" id="btn-day1" onclick="selectDay('day1')">Day 1</button>
+                <button class="day-btn" id="btn-day2" onclick="selectDay('day2')">Day 2</button>
+                <button class="day-btn" id="btn-day3" onclick="selectDay('day3')">Day 3</button>
+                <button class="day-btn" id="btn-day4" onclick="selectDay('day4')">Day 4</button>
+                <button class="day-btn" id="btn-day5" onclick="selectDay('day5')">Day 5</button>
+            </div>
+        </div>
+
+        <div class="itinerary-container">
+            <!-- Day 1 -->
+            <div id="day1" class="day-content active">
+                <div class="hotel-card">
+                    <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2f/91/20/44/facade.jpg?w=900&h=500&s=1" class="activity-img" alt="Hotel Mi Rochor">
+                    <div class="card-content">
+                        <div class="activity-title"><i class="fa-solid fa-bed"></i> Hotel Mi Rochor</div>
+                        <div class="activity-desc">入住 3 晚 (Bugis 區)</div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Hotel+Mi+Rochor" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 導航</a>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">16:30</span>
+                    <div class="activity-card">
+                        <img src="https://static01.nyt.com/images/2019/12/02/travel/02Singapore04/merlin_164024895_59aed975-e296-4a6e-b735-d5f40523d79f-master1050.jpg" class="activity-img" alt="Changi Airport">
+                        <div class="card-content">
+                            <div class="activity-title">🛬 抵達樟宜機場</div>
+                            <div class="activity-desc">搭乘地鐵至 Bugis 站。</div>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Changi+Airport" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">晚上</span>
+                    <div class="activity-card">
+                        <img src="https://admin.misstamchiak.com/wp-content/uploads/2019/10/overview-yat-ka-yan.jpg" class="activity-img" alt="Dinner">
+                        <div class="card-content">
+                            <div class="activity-title">🍽️ 晚餐 & 甜點</div>
+                            <div class="activity-desc">
+                                1. <b>Yat Ka Yan (一家人)</b> 甜品<br>
+                                2. <b>津津茶餐廳</b> (海南雞飯/煮炒)
+                            </div>
+                            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Yat+Ka+Yan+Dessert" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 一家人</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Chin+Chin+Eating+House+Singapore" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 津津茶餐廳</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 2 -->
+            <div id="day2" class="day-content">
+                <div class="timeline-item">
+                    <span class="time-badge">早餐</span>
+                    <div class="activity-card">
+                        <img src="https://static.wixstatic.com/media/ee8e9b_c0a4e69963c344af94a4cc8ac658716f~mv2.jpeg/v1/fill/w_568,h_394,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/ee8e9b_c0a4e69963c344af94a4cc8ac658716f~mv2.jpeg" class="activity-img" alt="Breakfast">
+                        <div class="card-content">
+                            <div class="activity-title">☕ 傳統早餐 & 甜點</div>
+                            <div class="activity-desc">
+                                - <b>The 1950's Coffee (五十年代)</b> @ Maxwell<br>
+                                - <b>queic by Olivia</b> (知名流心芝士塔)
+                            </div>
+                             <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                <a href="https://www.google.com/maps/search/?api=1&query=The+1950s+Coffee+Singapore" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 五十年代</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=queic+by+Olivia" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> queic</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">上午</span>
+                    <div class="activity-card">
+                        <img src="https://blog-img-dev.s3.ap-south-1.amazonaws.com/blog/wp-content/uploads/2025/03/Merlion-Park-Singapore-OG-Photo.jpg" class="activity-img" alt="City Tour">
+                        <div class="card-content">
+                            <div class="activity-title">🦁 經典市區巡禮</div>
+                            <div class="activity-desc">
+                                - <b>新加坡城市規劃展覽館</b> (URA Centre)<br>
+                                - <b>魚尾獅公園 (Merlion Park)</b><br>
+                                - <b>紅點設計博物館</b> (Red Dot)<br>
+                                - <b>老巴刹 (Lau Pa Sat)</b> 參觀
+                            </div>
+                            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Singapore+City+Gallery" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> URA</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Merlion+Park" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 魚尾獅</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Red+Dot+Design+Museum+Singapore" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 紅點博物館</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Lau+Pa+Sat" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 老巴刹</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">下午</span>
+                    <div class="activity-card">
+                        <img src="https://image.cdn-eztravel.com.tw/qV4AO1-AcAiD8nLI8s0uQ3sx2piTjHzVPX_9gYLuN0Y/rs:fill:600:315:1/g:ce/aHR0cHM6Ly92YWNhdGlvbi5jZG4tZXp0cmF2ZWwuY29tLnR3L2ltZy9WRFIvU0dfMTUwNDYzNDc4LmpwZw.jpg" class="activity-img" alt="ArtScience Museum">
+                        <div class="card-content">
+                            <div class="activity-title">🏛️ 藝術科學館</div>
+                            <div class="activity-desc">ArtScience Museum (TeamLab 展覽)。</div>
+                            <a href="https://www.google.com/maps/search/?api=1&query=ArtScience+Museum" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">晚上</span>
+                    <div class="activity-card highlight-event">
+                        <img src="https://images.squarespace-cdn.com/content/v1/549d41a3e4b003c6ce131926/1485538615633-B9O6319LRHX60HQMIVX0/image-asset.jpeg" class="activity-img" alt="Gardens by the Bay">
+                        <div class="card-content">
+                            <div class="activity-title">✨ 濱海灣花園之夜</div>
+                            <div class="activity-desc">
+                                1. <b>Gardens by the Bay</b> (超級樹)<br>
+                                2. <b>金沙酒店夜景</b> (MBS)<br>
+                                3. <b>Satay by the Bay</b> 吃沙嗲宵夜
+                            </div>
+                            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Gardens+by+the+Bay" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 花園</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Marina+Bay+Sands" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 金沙</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Satay+by+the+Bay" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 沙嗲</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 3 -->
+            <div id="day3" class="day-content">
+                <div class="timeline-item">
+                    <span class="time-badge">上午</span>
+                    <div class="activity-card">
+                        <img src="https://miro.medium.com/v2/resize:fit:2000/1*-frZ38AcP2uEmsjdVsh8gw.jpeg" class="activity-img" alt="Joo Chiat">
+                        <div class="card-content">
+                            <div class="activity-title">🍞 東區美食 & 文化</div>
+                            <div class="activity-desc">
+                                - <b>真美珍 (Chin Mee Chin)</b> 傳統咖椰吐司<br>
+                                - <b>如切路 (Joo Chiat Road)</b> 娘惹屋漫步<br>
+                                (推薦前往坤成路 Koon Seng Road 拍攝彩色屋)
+                            </div>
+                            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Chin+Mee+Chin+Confectionery" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 真美珍</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Joo+Chiat+Road" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 如切路</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Koon+Seng+Road" target="_blank" class="map-btn"><i class="fa-solid fa-camera"></i> 彩色屋</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">下午</span>
+                    <div class="activity-card">
+                        <img src="https://beri.tw/wp-content/uploads/2019/06/20190420005322_3.jpg" class="activity-img" alt="Arab St">
+                        <div class="card-content">
+                            <div class="activity-title">🕌 異國風情 & 博物館</div>
+                            <div class="activity-desc">
+                                 - <b>阿拉伯街 (Arab St) & 蘇丹回教堂</b><br>
+                                - <b>武吉市商圈 (Bugis Street)</b><br>
+                                - <b>亞洲文化博物館</b> (ACM)<br>
+                                - <b>co+nut+ink</b> 椰子冰淇淋
+                            </div>
+                            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Sultan+Mosque" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 回教堂</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Bugis+Street" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> Bugis</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Asian+Civilisations+Museum" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 博物館</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=co+nut+ink+singapore" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 椰子冰</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">晚餐</span>
+                    <div class="activity-card">
+                        <img src="https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1200,h_630/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/asegcec7zybjek0phmql/%E6%96%B0%E5%8A%A0%E5%9D%A1%E6%9D%BE%E7%99%BC%E8%82%89%E9%AA%A8%E8%8C%B6.jpg" class="activity-img" alt="Suntec City">
+                        <div class="card-content">
+                            <div class="activity-title">🍲 財富之泉 & 肉骨茶</div>
+                            <div class="activity-desc">
+                                位於 Suntec City。<br>
+                                - <b>松發肉骨茶</b> (Song Fa)<br>
+                                - <b>財富之泉</b> (Fountain of Wealth)
+                            </div>
+                            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Song+Fa+Bak+Kut+Teh+Suntec+City" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 松發</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Fountain+of+Wealth" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 財富之泉</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">19:30</span>
+                    <div class="activity-card highlight-event">
+                        <img src="https://www.esplanade.com/-/media/Esplanade/Images/S-50-Concert-Hall/concert-hall-01.ashx?rev=c0eacdc2041947b79226026afdad05a4&hash=753E3CEA0C5B607981647A2074718D92" class="activity-img" alt="Esplanade">
+                        <div class="card-content">
+                            <div class="activity-title">🎵 Esplanade Concert Hall</div>
+                            <div class="activity-desc">
+                                前往「大榴槤」濱海藝術中心欣賞演出。
+                            </div>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Esplanade+Concert+Hall" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 4 -->
+            <div id="day4" class="day-content">
+                <div class="timeline-item">
+                    <span class="time-badge">上午</span>
+                    <div class="activity-card">
+                        <img src="https://danielfooddiary.com/wp-content/uploads/2022/09/apartmentcoffee2-1.jpg" class="activity-img" alt="Cafe">
+                        <div class="card-content">
+                            <div class="activity-title">☕ Cafe Hopping</div>
+                            <div class="activity-desc">Apartment Coffee + 3 Meals A Day。</div>
+                            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Apartment+Coffee" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> Apartment</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Three+Meals+a+Day+Singapore" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 3 Meals</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hotel-card" style="border-color: #ff0055;">
+                    <img src="https://res.klook.com/klook-hotel/image/upload/travelapi/16000000/15070000/15061900/15061900/e96b58a9_z.jpg" class="activity-img" alt="D'Resort">
+                    <div class="card-content">
+                        <div class="activity-title"><i class="fa-solid fa-suitcase"></i> D'Resort</div>
+                        <div class="activity-desc">更換住宿 (Downtown East)</div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=D'Resort+@+Downtown+East" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 導航</a>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">下午</span>
+                    <div class="activity-card">
+                        <img src="https://media.timeout.com/images/104076524/750/422/image.jpg" class="activity-img" alt="Wild Wild Wet">
+                        <div class="card-content">
+                            <div class="activity-title">🏖️ 度假模式</div>
+                            <div class="activity-desc">Wild Wild Wet 水上樂園或海灘散步。</div>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Wild+Wild+Wet" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 5 -->
+            <div id="day5" class="day-content">
+                <div class="timeline-item">
+                    <span class="time-badge">下午</span>
+                    <div class="activity-card highlight-event">
+                        <img src="https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_3000,h_2000/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/l1fkfzmqvhbzvasytgnd/%E6%96%B0%E5%8A%A0%E5%9D%A1%E6%98%9F%E8%80%80%E6%A8%9F%E5%AE%9C%E6%99%AF%E9%BB%9E%E9%96%80%E7%A5%A8-Klook%E9%A6%99%E6%B8%AF.jpg" class="activity-img" alt="Jewel">
+                        <div class="card-content">
+                            <div class="activity-title">💎 星耀樟宜 Jewel</div>
+                            <div class="activity-desc">室內瀑布 + 最後購物。</div>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Jewel+Changi+Airport" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> 導航</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="time-badge">18:55</span>
+                    <div class="activity-card">
+                        <img src="https://cdn.sanity.io/images/nxpteyfv/goguides/464833864128ec6468e2a5d5775e6383f3eeee9b-1600x1066.jpg" class="activity-img" alt="Flight">
+                        <div class="card-content">
+                            <div class="activity-title">🛫 回程</div>
+                            <div class="activity-desc">SQ898 飛往香港。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Designed for 🇸🇬 Trip
+        </div>
+    </div>
+
+    <script>
+        // === 1. 背景螢火蟲生成邏輯 ===
+        function createFireflies() {
+            const container = document.getElementById('fireflies');
+            const fireflyCount = 20;
+
+            for (let i = 0; i < fireflyCount; i++) {
+                const fly = document.createElement('div');
+                fly.classList.add('firefly');
+                const left = Math.random() * 100 + 'vw';
+                const delay = Math.random() * 10 + 's';
+                const duration = 5 + Math.random() * 10 + 's';
+                fly.style.left = left;
+                fly.style.animationDelay = delay;
+                fly.style.animationDuration = duration;
+                const hue = Math.random() > 0.5 ? '#00f2ea' : '#ff0055';
+                fly.style.background = hue;
+                fly.style.boxShadow = `0 0 10px ${hue}`;
+                container.appendChild(fly);
+            }
+        }
+
+        // === 2. 倒數計時器邏輯 ===
+        function startCountdown() {
+            const targetDate = new Date("November 30, 2025 00:00:00").getTime();
+            function update() {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+                if (distance < 0) {
+                    document.getElementById("countdown").innerHTML = "TRIP STARTED!";
+                    return;
+                }
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById("countdown").innerHTML = `
+                    <div class="countdown-item"><div class="count-val">${days}</div><div class="count-label">Days</div></div>
+                    <div class="countdown-item"><div class="count-val">${hours}</div><div class="count-label">Hrs</div></div>
+                    <div class="countdown-item"><div class="count-val">${minutes}</div><div class="count-label">Mins</div></div>
+                `;
+            }
+            setInterval(update, 60000);
+            update();
+        }
+
+        // === 3. 頁面切換與動畫 ===
+        function selectDay(dayId) {
+            var contents = document.getElementsByClassName('day-content');
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].style.display = 'none';
+                contents[i].classList.remove('active');
+            }
+            var btns = document.getElementsByClassName('day-btn');
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].classList.remove('active');
+            }
+            var activeBtn = document.getElementById('btn-' + dayId);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+            var target = document.getElementById(dayId);
+            if (target) {
+                target.style.display = 'block';
+                target.classList.add('active');
+                var cards = target.querySelectorAll('.hotel-card, .activity-card');
+                cards.forEach(card => {
+                    card.classList.remove('slide-in');
+                    card.style.opacity = '0';
+                });
+                setTimeout(() => {
+                    cards.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.classList.add('slide-in');
+                        }, index * 100); 
+                    });
+                }, 50);
+            }
+        }
+
+        window.onload = function() {
+            createFireflies();
+            startCountdown();
+            selectDay('day1');
+        }
+    </script>
+</body>
+</html>
